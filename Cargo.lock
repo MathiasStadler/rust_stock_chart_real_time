@@ -1751,6 +1751,7 @@ name = "rust_stock_chart_real_time"
 version = "0.1.0"
 dependencies = [
  "cargo-edit",
+ "chrono",
  "plotters",
  "rustfmt",
 ]
