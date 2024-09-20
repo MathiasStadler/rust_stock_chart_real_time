@@ -73,6 +73,15 @@ cargo update --verbose
 cargo build
 ```
 
+## add cargo upgrades
+
+```bash
+sudo apt install clang
+cargo install cargo-upgrades
+
+
+```
+
 ## add cargo watch
 
 ```bash
@@ -120,3 +129,5 @@ https://github.com/yeslogic/fontconfig-rs
 
 sudo apt-get  install libfontconfig1-dev
 ```
+
+##

@@ -5,4 +5,5 @@ edition = "2021"
 
 [dependencies]
 cargo-edit = "0.13.0"
+plotters = "0.3.7"
 rustfmt = "0.10.0"

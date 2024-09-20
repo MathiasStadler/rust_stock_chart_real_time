@@ -1,0 +1,1 @@
+# plotters chart with stock data from csv file /w indicators
