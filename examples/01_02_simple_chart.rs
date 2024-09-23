@@ -6,7 +6,7 @@ use chrono::{ Utc, TimeZone };
 
 fn main() {
     let root_area = BitMapBackend::new(
-        "images/01_simple_chart.png",
+        "images/01_02_simple_chart.png",
         (600, 400)
     ).into_drawing_area();
     root_area.fill(&WHITE).unwrap();
@@ -23,16 +23,24 @@ fn main() {
 
     ctx.configure_mesh().draw().unwrap();
 
-    ctx.draw_series(
-        LineSeries::new(
-            (0..).zip(DATA.iter()).map(|(idx, price)| {
-                let day = (idx / 5) * 7 + (idx % 5) + 1;
-                let date = Utc.ymd(2019, 10, day);
-                (date, *price)
-            }),
-            &BLUE
-        )
-    ).unwrap();
+    let data_vec = [
+        ("2019 - 10 - 01Z", 137.24),
+        ("2019 - 10 - 02Z", 136.37),
+        ("2019 - 10 - 03Z", 138.43),
+        ("2019 - 10 - 04Z", 137.41),
+        ("2019 - 10 - 05Z", 139.69),
+        ("2019 - 10 - 08Z", 140.41),
+        ("2019 - 10 - 09Z", 141.58),
+        ("2019 - 10 - 10Z", 139.55),
+        ("2019 - 10 - 11Z", 139.68),
+        ("2019 - 10 - 12Z", 139.1),
+        ("2019 - 10 - 15Z", 138.24),
+        ("2019 - 10 - 16Z", 135.67),
+        ("2019 - 10 - 17Z", 137.12),
+        ("2019 - 10 - 18Z", 138.12),
+    ];
+
+    ctx.draw_series(LineSeries::new(data_vec, &BLUE)).unwrap();
 }
 const DATA: [f64; 14] = [
     137.24, 136.37, 138.43, 137.41, 139.69, 140.41, 141.58, 139.55, 139.68, 139.1, 138.24, 135.67,
