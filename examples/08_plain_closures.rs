@@ -1,4 +1,3 @@
-
 use chrono::{ Utc, TimeZone };
 fn main() {
     // FROM HERE
@@ -11,12 +10,18 @@ fn main() {
         137.12, 138.12,
     ];
 
-    let doubled: Vec<_> = (0..).zip(DATA.iter()).map(|(idx, price)| {
-        let day = (idx / 5) * 7 + (idx % 5) + 1;
-        let date = Utc.ymd(2019, 10, day);
-        (date, *price)
-    })
+    let doubled: Vec<_> = (0..)
+        .zip(DATA.iter())
+        .map(|(idx, price)| {
+            println!("idx => {}, price => {}", idx, price);
+            let day = (idx / 5) * 7 + (idx % 5) + 1;
+            let date = Utc.ymd(2019, 10, day);
+            println!("date => {}, price => {}", date, price);
+            (date, *price)
+        })
         .collect();
 
     println!("Doubled numbers: {:?}", doubled); // Outputs: Doubled numbers:
 }
+
+// cargo run --example 08_plain_closures

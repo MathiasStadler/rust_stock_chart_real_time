@@ -1,17 +1,28 @@
 // FROM HERE
 // https://plotters-rs.github.io/book/basic/basic_data_plotting.html
 
-use plotters::prelude::*;
+// use plotters::prelude::*;
+
+use plotters::prelude::BLUE;
+use plotters::prelude::WHITE;
+use plotters::backend::BitMapBackend;
+use plotters::prelude::LineSeries;
+use plotters::prelude::LabelAreaPosition;
+use plotters::prelude::ChartBuilder;
+use plotters::drawing::IntoDrawingArea;
+
 use chrono::{ Utc, TimeZone };
 
 fn main() {
     let root_area = BitMapBackend::new(
-        "images/01_02_simple_chart.png",
+        "images/10_01_simple_chart.png",
         (600, 400)
     ).into_drawing_area();
     root_area.fill(&WHITE).unwrap();
 
+    #[allow(deprecated)]
     let start_date = Utc.ymd(2019, 10, 1);
+    #[allow(deprecated)]
     let end_date = Utc.ymd(2019, 10, 18);
 
     let mut ctx = ChartBuilder::on(&root_area)
@@ -23,24 +34,23 @@ fn main() {
 
     ctx.configure_mesh().draw().unwrap();
 
-    let data_vec = [
-        ("2019 - 10 - 01Z", 137.24),
-        ("2019 - 10 - 02Z", 136.37),
-        ("2019 - 10 - 03Z", 138.43),
-        ("2019 - 10 - 04Z", 137.41),
-        ("2019 - 10 - 05Z", 139.69),
-        ("2019 - 10 - 08Z", 140.41),
-        ("2019 - 10 - 09Z", 141.58),
-        ("2019 - 10 - 10Z", 139.55),
-        ("2019 - 10 - 11Z", 139.68),
-        ("2019 - 10 - 12Z", 139.1),
-        ("2019 - 10 - 15Z", 138.24),
-        ("2019 - 10 - 16Z", 135.67),
-        ("2019 - 10 - 17Z", 137.12),
-        ("2019 - 10 - 18Z", 138.12),
-    ];
 
-    ctx.draw_series(LineSeries::new(data_vec, &BLUE)).unwrap();
+    let line_series_data = LineSeries::new(
+        (0..).zip(DATA.iter()).map
+        (
+            |(idx, price)| {
+            let day = (idx / 5) * 7 + (idx % 5) + 1;
+            #[allow(deprecated)]
+            let date = Utc.ymd(2019, 10, day);
+            (date, *price)
+        }
+    ),
+        &BLUE
+    );
+
+    ctx.draw_series(
+    line_series_data 
+    ).unwrap();
 }
 const DATA: [f64; 14] = [
     137.24, 136.37, 138.43, 137.41, 139.69, 140.41, 141.58, 139.55, 139.68, 139.1, 138.24, 135.67,
@@ -48,4 +58,4 @@ const DATA: [f64; 14] = [
 ];
 
 // cargo run --example
-// cargo run --example 01_simple_chart
+// cargo run --example 10_simple_chart

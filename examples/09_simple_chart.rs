@@ -6,7 +6,7 @@ use chrono::{ Utc, TimeZone };
 
 fn main() {
     let root_area = BitMapBackend::new(
-        "images/01_simple_chart.png",
+        "images/09_simple_chart.png",
         (600, 400)
     ).into_drawing_area();
     root_area.fill(&WHITE).unwrap();
@@ -25,17 +25,17 @@ fn main() {
 
     ctx.configure_mesh().draw().unwrap();
 
-    ctx.draw_series(
-        LineSeries::new(
-            (0..).zip(DATA.iter()).map(|(idx, price)| {
-                let day = (idx / 5) * 7 + (idx % 5) + 1;
-                #[allow(deprecated)]
-                let date = Utc.ymd(2019, 10, day);
-                (date, *price)
-            }),
-            &BLUE
-        )
-    ).unwrap();
+    let v = (0..).zip(DATA.iter()).map(|(idx, price)| {
+        // ignore dummy/pseudo  weekends
+        let day = (idx / 5) * 7 + (idx % 5) + 1;
+        println!("idx => {} day => {}", idx, day);
+        #[allow(deprecated)]
+        let date = Utc.ymd(2019, 10, day);
+        println!{"{},{}",date,price};
+        (date, *price)
+    });
+
+    ctx.draw_series(LineSeries::new(v, &BLUE)).unwrap();
 }
 const DATA: [f64; 14] = [
     137.24, 136.37, 138.43, 137.41, 139.69, 140.41, 141.58, 139.55, 139.68, 139.1, 138.24, 135.67,
@@ -43,4 +43,4 @@ const DATA: [f64; 14] = [
 ];
 
 // cargo run --example
-// cargo run --example 01_simple_chart
+// cargo run --example 09_simple_chart
