@@ -42,6 +42,9 @@ fn main() {
         let day = (idx / 5) * 7 + (idx % 5) + 1;
         #[allow(deprecated)]
         let date = Utc.ymd(2019, 10, day);
+        // parse timestamp to UTC
+        //DateTime::parse_from_str
+        //https://docs.rs/chrono/latest/chrono/
         println!("DEBUG 1: idx => {}, day => {}, price => {}", idx, day, price);
         println!("DEBUG 2: {},{}", date, price);
         wtr.write_record(&[date.to_string(), price.to_string()]).unwrap();
