@@ -78,8 +78,6 @@ cargo build
 ```bash
 sudo apt install clang cmake
 cargo install cargo-upgrades
-
-
 ```
 
 ## add cargo watch
