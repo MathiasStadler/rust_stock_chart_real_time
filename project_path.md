@@ -76,7 +76,7 @@ cargo build
 ## add cargo upgrades
 
 ```bash
-sudo apt install clang
+sudo apt install clang cmake
 cargo install cargo-upgrades
 
 
@@ -130,4 +130,3 @@ https://github.com/yeslogic/fontconfig-rs
 sudo apt-get  install libfontconfig1-dev
 ```
 
-##
