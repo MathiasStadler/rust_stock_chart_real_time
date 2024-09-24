@@ -13,9 +13,13 @@ use plotters::drawing::IntoDrawingArea;
 
 use chrono::{ Utc, TimeZone };
 
+use csv::Writer;
+
 fn main() {
+    let mut wtr = Writer::from_path("csv/13_output.csv").unwrap();
+
     let root_area = BitMapBackend::new(
-        "images/11_simple_chart.png",
+        "images/13_simple_chart.png",
         (600, 400)
     ).into_drawing_area();
     root_area.fill(&WHITE).unwrap();
@@ -34,20 +38,17 @@ fn main() {
 
     ctx.configure_mesh().draw().unwrap();
 
-    let my_closures =(0..).zip(DATA.iter()).map(|(idx, price)| {
-        
+    let my_closures = (0..).zip(DATA.iter()).map(|(idx, price)| {
         let day = (idx / 5) * 7 + (idx % 5) + 1;
         #[allow(deprecated)]
         let date = Utc.ymd(2019, 10, day);
-        println!("DEBUG 1: idx => {}, day => {}, price => {}",idx,day,price);
-        println!("DEBUG 2: {},{}",date,*price);
+        println!("DEBUG 1: idx => {}, day => {}, price => {}", idx, day, price);
+        println!("DEBUG 2: {},{}", date, price);
+        wtr.write_record(&[date.to_string(), price.to_string()]).unwrap();
         (date, *price)
     });
 
-    let line_series_data = LineSeries::new(
-        my_closures,
-        &BLUE
-    );
+    let line_series_data = LineSeries::new(my_closures, &BLUE);
 
     ctx.draw_series(line_series_data).unwrap();
 }

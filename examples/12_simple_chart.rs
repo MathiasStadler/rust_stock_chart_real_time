@@ -39,8 +39,7 @@ fn main() {
         let day = (idx / 5) * 7 + (idx % 5) + 1;
         #[allow(deprecated)]
         let date = Utc.ymd(2019, 10, day);
-        println!("DEBUG 1: idx => {}, day => {}, price => {}",idx,day,price);
-        println!("DEBUG 2: {},{}",date,*price);
+        println!("DEBUG: idx => {}, day => {}, price => {}",idx,day,price);
         (date, *price)
     });
 
