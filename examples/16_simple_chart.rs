@@ -63,7 +63,7 @@ fn main() {
 
     ctx.configure_mesh().draw().unwrap();
 
-    let my_closures = (0..).zip(DATA.iter()).map(|(idx, price)| {
+    let one_closures = (0..).zip(DATA.iter()).map(|(idx, price)| {
         let day = (idx / 5) * 7 + (idx % 5) + 1;
         #[allow(deprecated)]
         let date = Utc.ymd(2019, 10, day);
@@ -76,16 +76,27 @@ fn main() {
         (date, *price)
     });
 
-    println!("my_closures => {:?}", my_closures);
+    println!("one_closures => {:?}", one_closures);
 
-let second_closures = (0..).zip(DATA.iter()).map(|(idx, price)| {
-    pritntln!("second");
-});
+    let two_closures = (0..).zip(DATA.iter()).map(|(idx, price)| {
+    
+    println!("{:?}",idx);
+    println!("{:?}",price);
+    (idx,*price)
+    });
 
-println!("second_closures => {:?}",second_closures);
+    println!("{:?}",two_closures);
+
+// let two_closures = (0..).zip(one_closures).map(|(idx, price)| {
+//     println!("second");
+//     // println!("DEBUG 1: idx => {}, day => {}, price => {}", idx, day, price);
+//     (idx,price)
+// });
+
+// println!("two_closures => {:?}",two_closures);
     
 
-    let line_series_data = LineSeries::new(my_closures, &BLUE);
+    let line_series_data = LineSeries::new(one_closures, &BLUE);
 
     ctx.draw_series(line_series_data).unwrap();
 }
