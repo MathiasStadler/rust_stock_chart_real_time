@@ -128,3 +128,10 @@ https://github.com/yeslogic/fontconfig-rs
 sudo apt-get  install libfontconfig1-dev
 ```
 
+## add cargo add env_logger
+
+```bash
+cargo add log
+cargo add env_logger
+```
+

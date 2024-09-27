@@ -1,5 +1,9 @@
 use chrono::Utc;
 use chrono::TimeZone;
+#[allow(unused_imports)]
+use log::{debug, error, log_enabled, info, Level};
+
+
 
 const DATA: [f64; 14] = [
     137.24, 136.37, 138.43, 137.41, 139.69, 140.41, 141.58, 139.55, 139.68, 139.1, 138.24, 135.67,
@@ -7,6 +11,8 @@ const DATA: [f64; 14] = [
 ];
 
 fn main() {
+    env_logger::init();
+    info!("simple closures {}", 1);
     println!("simple closures");
 
     let one_closures = (0..).zip(DATA.iter()).map(|(idx, price)| {
@@ -40,3 +46,6 @@ fn main() {
 
     println!("output=> {:?}",output);
 }
+
+
+//  RUST_LOG=info  cargo run --example 02_simple_closures
