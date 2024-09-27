@@ -4,6 +4,7 @@
 // use plotters::prelude::*;
 
 use std::path::Path;
+// use std::result;
 
 use plotters::prelude::BLUE;
 use plotters::prelude::WHITE;
@@ -18,13 +19,11 @@ use chrono::Utc;
 
 use csv::Writer;
 
-use std::collections::HashMap;
-
-use std::iter::zip;
-
-// use serde::Deserialize;
-
-// use chrono::NaiveDate;
+// FROM HERE
+// https://rust-lang-nursery.github.io/rust-cookbook/encoding/csv.html
+use csv::{Reader, Writer};
+use serde::{de, Deserialize, Deserializer};
+use std::str::FromStr;
 
 fn main() {
     let this_file = file!();
@@ -41,8 +40,13 @@ fn main() {
     let output_png_filename: String = format!("images/{output_png}");
     let output_csv_filename: String = format!("csv/{output_csv}");
 
-    // println!("target png filename: {}", output_png_filename);
-    // println!("target csv filename: {}", output_csv_filename);
+    // read csv
+    let mut rdr = csv::Reader::from_path("stock_data/stock_trex_data.csv").unwrap();
+    
+    // wrong let reader_iter = reader.iter();
+    let rdr_iter = rdr.deserialize();
+
+    println!("{}",rdr_iter.count());
 
     let mut wtr = Writer::from_path(&output_csv_filename).unwrap();
 
@@ -67,10 +71,7 @@ fn main() {
         let day = (idx / 5) * 7 + (idx % 5) + 1;
         #[allow(deprecated)]
         let date = Utc.ymd(2019, 10, day);
-        // parse timestamp to UTC
-        //DateTime::parse_from_str
-        //https://docs.rs/chrono/latest/chrono/
-        // println!("DEBUG 1: idx => {}, day => {}, price => {}", idx, day, price);
+
         println!("DEBUG 2: {},{}", date, price);
         wtr.write_record(&[date.to_string(), price.to_string()]).unwrap();
         (date, *price)
@@ -78,27 +79,12 @@ fn main() {
 
     println!("one_closures => {:?}", one_closures);
 
-    let two_closures = (0..).zip(DATA.iter()).map(|(idx, price)| {
-    
-    println!("{:?}",idx);
-    println!("{:?}",price);
-    (idx,*price)
-    });
-
-    println!("{:?}",two_closures);
-
-// let two_closures = (0..).zip(one_closures).map(|(idx, price)| {
-//     println!("second");
-//     // println!("DEBUG 1: idx => {}, day => {}, price => {}", idx, day, price);
-//     (idx,price)
-// });
-
-// println!("two_closures => {:?}",two_closures);
-    
-
     let line_series_data = LineSeries::new(one_closures, &BLUE);
+ // let line_series_data = LineSeries::new(reader_iter, &BLUE);
 
-    ctx.draw_series(line_series_data).unwrap();
+ 
+
+  ctx.draw_series(line_series_data).unwrap();
 }
 const DATA: [f64; 14] = [
     137.24, 136.37, 138.43, 137.41, 139.69, 140.41, 141.58, 139.55, 139.68, 139.1, 138.24, 135.67,
@@ -106,4 +92,4 @@ const DATA: [f64; 14] = [
 ];
 
 // cargo run --example
-// cargo run --example 10_simple_chart
+// cargo run --example 17_simple_chart

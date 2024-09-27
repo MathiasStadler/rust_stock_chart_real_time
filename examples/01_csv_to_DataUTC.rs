@@ -2,10 +2,11 @@
 
 // use chrono::NaiveDate;
 use chrono::{ NaiveDate, NaiveTime };
+use csv::Reader;
 
 fn main() {
     // read csv
-    let mut reader = csv::Reader::from_path("stock_data/stock_trex_data.csv").unwrap();
+    let mut reader = Reader::from_path("stock_data/stock_trex_data.csv").unwrap();
 
     for record in reader.deserialize() {
         #[allow(unused_variables)]
@@ -22,6 +23,7 @@ fn main() {
             .unwrap()
             .and_time(NaiveTime::parse_from_str("00:00:00", "%H:%M:%S").unwrap())
             .and_utc();
+        
         println!("{},{},{}", date, _csv_date, close);
     }
 }
